@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskMaster — Elegant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg1: #0e1217;
+      --bg2: #1a1f27;
+      --accent: #6a5acd;
+      --accent-light: #9b8fff;
+      --text-primary: #f5f7fa;
+      --text-secondary: #a0a8b5;
+      --card-bg: #1d232d;
+      --border: rgba(255,255,255,0.05);
+      --success: #38ef7d;
+      --danger: #ff6b6b;
+      --shadow: 0 4px 25px rgba(0,0,0,0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      color: var(--text-primary);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 24px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      max-width: 1100px;
+      width: 100%;
+      padding: 24px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding-right: 16px;
+      border-right: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, var(--accent), var(--accent-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: white;
+      box-shadow: 0 4px 20px rgba(106, 90, 205, 0.4);
+    }
+
+    .brand h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .brand p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .nav button {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 10px 12px;
+      border-radius: 8px;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .nav button:hover {
+      background: rgba(106, 90, 205, 0.15);
+      color: var(--accent-light);
+      transform: translateX(6px);
+    }
+
+    .stats {
+      margin-top: auto;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    /* Main */
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .add-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      transition: 0.3s;
+    }
+
+    .add-card:hover {
+      box-shadow: 0 8px 25px rgba(106,90,205,0.25);
+    }
+
+    input, select {
+      flex: 1;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      padding: 10px;
+      font-size: 0.95rem;
+      outline: none;
+      appearance: none; /* removes default arrow in some browsers */
+    }
+
+    select option {
+      background: var(--card-bg);
+      color: var(--text-primary);
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(106,90,205,0.4);
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(106,90,205,0.5);
+    }
+
+    .panel {
+      background: var(--bg2);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .panel h3 {
+      margin-bottom: 16px;
+      color: var(--accent-light);
+      font-weight: 600;
+    }
+
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .task {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.3s;
+      animation: fadeIn 0.3s ease both;
+    }
+
+    .task:hover {
+      background: rgba(255,255,255,0.04);
+      transform: translateY(-2px);
+    }
+
+    .task .meta {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .task .meta span {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .task .meta small {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .task .actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      padding: 6px 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .action-btn.complete {
+      background: linear-gradient(135deg, #00c853, #00e676);
+    }
+
+    .action-btn.danger {
+      background: linear-gradient(135deg, #ff5252, #ff1744);
+    }
+
+    .action-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .completed .meta span {
+      text-decoration: line-through;
+      color: #999;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 850px) {
+      .app { grid-template-columns: 1fr; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">TM</div>
+        <div>
+          <h2>TaskMaster</h2>
+          <p>Plan. Focus. Achieve.</p>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button onclick="filterCategory('')">📋 All Tasks</button>
+        <button onclick="filterCategory('Work')">💼 Work</button>
+        <button onclick="filterCategory('Personal')">🏠 Personal</button>
+      </nav>
+
+      <div class="stats">
+        <div id="statsText">Loading...</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="add-card">
+        <input id="taskInput" placeholder="Enter your task..." />
+        <select id="categoryInput">
+          <option value="Work">Work</option>
+          <option value="Personal">Personal</option>
+        </select>
+        <button class="primary-btn" onclick="addTask()">Add</button>
+      </div>
+
+      <section class="panel">
+        <h3>Your Tasks</h3>
+        <div id="taskList" class="task-list"></div>
+        <div id="progressContainer" style="margin-top: 16px;">
+          <div id="progressText" style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 8px;"></div>
+          <div style="background: var(--border); border-radius: 8px; overflow: hidden;">
+            <div id="progressBar" style="height: 8px; background: var(--accent); width: 0%;"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+const API = {
+  add: '/add-task',
+  list: '/get-tasks',
+  toggle: (id) => '/toggle-complete/' + id,
+  delete: (id) => '/delete-task/' + id
+};
+
+let tasks = [];
+let currentFilter = '';
+
+window.onload = fetchTasks;
+
+async function fetchTasks(){
+  try{
+    const res = await fetch('http://localhost:5000' + API.list);
+    tasks = await res.json();
+    renderTasks();
+  }catch(e){
+    document.getElementById('statsText').textContent = '⚠️ Start Flask server first.';
+  }
+}
+
+function renderTasks(){
+  const list = document.getElementById('taskList');
+  const stats = document.getElementById('statsText');
+  list.innerHTML = '';
+  const filtered = tasks.filter(t => !currentFilter || t.category === currentFilter);
+  filtered.forEach((t, i) => {
+    const el = document.createElement('div');
+    el.className = 'task';
+    if(t.completed) el.classList.add('completed');
+    el.innerHTML = `
+      <div class="meta">
+        <span>${t.text}</span>
+        <small>${t.category}</small>
+      </div>
+      <div class="actions">
+        <button class="action-btn ${t.completed ? '' : 'complete'}" onclick="toggleComplete(${t.id})">
+          ${t.completed ? 'Undo' : 'Done'}
+        </button>
+        <button class="action-btn danger" onclick="deleteTask(${t.id})">Delete</button>
+      </div>`;
+    list.appendChild(el);
+  });
+  stats.textContent = filtered.length + ' tasks shown';
+
+  // Progress Bar Logic
+  const completed = filtered.filter(t => t.completed).length;
+  const total = filtered.length;
+  const progressText = document.getElementById('progressText');
+  const progressBar = document.getElementById('progressBar');
+  progressText.textContent = `${completed}/${total} task${total === 1 ? '' : 's'} completed`;
+  progressBar.style.width = total === 0 ? '0%' : `${(completed/total)*100}%`;
+}
+
+async function addTask(){
+  const text = document.getElementById('taskInput').value.trim();
+  const category = document.getElementById('categoryInput').value;
+  if(!text) return alert('Please enter a task!');
+  await fetch('http://localhost:5000' + API.add, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ text, category })
+  });
+  document.getElementById('taskInput').value='';
+  fetchTasks();
+}
+
+async function toggleComplete(id){
+  await fetch('http://localhost:5000' + API.toggle(id), { method:'PATCH' });
+  fetchTasks();
+}
+
+async function deleteTask(id){
+  if(!confirm('Delete this task?')) return;
+  await fetch('http://localhost:5000' + API.delete(id), { method:'DELETE' });
+  fetchTasks();
+}
+
+function filterCategory(cat){
+  currentFilter = cat;
+  renderTasks();
+}
+</script>
+</body>
+</html>
